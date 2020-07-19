@@ -9,9 +9,12 @@ var stand1,stand2;
 var ball;
 var slingShot;
 var polygon_img;
+var score = 0;
+var bckImg = "images/light.jpg";
 
 function preload(){
-  polygon_img=loadImage("polygon.png");
+  getBackgroundImage();
+  polygon_img=loadImage("polygon.png");  
 }
 
 function setup() {
@@ -73,13 +76,18 @@ function setup() {
 }
 
 function draw() {
-  background(56,44,44);  
+  //background(56,44,44); 
+  if(bckImg) 
+    background(bckImg);
+    fill(255);
+  text("SCORE: "+score, 750,40);
   Engine.update(engine);
   
   textSize(25);
   fill("yellow");
   text("Drag the Hexagonal Stone and Release it, to launch it towards the blocks",70,30);
-
+  textSize(10);
+  text("Press Space to get a second Chance to Play!!",650 ,350);
   ground.display();
   stand1.display();
   stand2.display();
@@ -87,43 +95,73 @@ function draw() {
   stroke(15);
   fill("blue");
   block1.display();
+  block1.score();
   block2.display();
+  block2.score();
   block3.display();
+  block3.score();
   block4.display();
+  block4.score();
   block5.display();
+  block5.score();
   block6.display();
+  block6.score();
   block7.display();
+  block7.score();
   block8.display();
+  block8.score();
   fill("yellow");
   block9.display();
+  block9.score();
   block10.display();
+  block10.score();
   block11.display();
+  block11.score();
   block12.display();
+  block12.score();
   block13.display();
+  block13.score();
   block14.display();
+  block14.score();
   fill("red");  
   block15.display();
+  block15.score();
   block16.display();
+  block16.score();
   block17.display();
+  block17.score();
   block18.display();
+  block18.score();
   fill("green");  
   block19.display();
+  block19.score();
   block20.display();
+  block20.score();
   fill("orange");
   block21.display();
+  block21.score();
 
   fill("blue");
   blocks1.display();
+  blocks1.score();
   blocks2.display();
+  blocks2.score();
   blocks3.display();
+  blocks3.score();
   blocks4.display();
+  blocks4.score();
   blocks5.display();
+  blocks5.score();
   fill("yellow");
   blocks6.display();
+  blocks6.score();
   blocks7.display();
+  blocks7.score();
   blocks8.display();
+  blocks8.score();
   fill("red")
   blocks9.display();
+  blocks9.score();
   fill("gold");
   imageMode(CENTER)
   image(polygon_img ,ball.position.x,ball.position.y,40,40);
@@ -137,4 +175,29 @@ function mouseDragged(){
 
 function mouseReleased(){
   slingShot.fly();
+}
+
+function keyPressed(){
+  if(keyCode === 32){
+    slingShot.attach(this.ball);
+  }
+}
+
+async function getBackgroundImage(){
+  //var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
+  var response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
+  var responseJSON = await response.json();
+  var dateTime = responseJSON.datetime;
+  var hour = dateTime.slice(11,13);
+  var bg;
+  console.log(hour);
+  console.log(dateTime);
+  if(hour >=06 && hour <=18){
+    bg = "images/light.jpg";
+  }
+  else{
+    bg = "images/dark.jpg";
+  }
+
+  bckImg = loadImage(bg);
 }
